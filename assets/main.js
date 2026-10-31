@@ -51,4 +51,44 @@
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", onScroll, { passive: true });
   update();
+
+  /* 点击图片查看大图 */
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightbox-img");
+  const lightboxCap = document.getElementById("lightbox-cap");
+  const lightboxClose = document.querySelector(".lightbox-close");
+
+  if (lightbox && lightboxImg) {
+    const open = (img) => {
+      const fig = img.closest("figure");
+      const cap = fig ? fig.querySelector("figcaption") : null;
+      const text = cap ? cap.textContent.trim() : "";
+
+      lightboxImg.src = img.getAttribute("src");
+      lightboxImg.alt = img.alt || "";
+      lightboxCap.textContent = text;
+      lightboxCap.hidden = !text;
+      lightbox.hidden = false;
+      document.body.classList.add("lightbox-open");
+      if (lightboxClose) lightboxClose.focus();
+    };
+
+    const close = () => {
+      lightbox.hidden = true;
+      document.body.classList.remove("lightbox-open");
+      lightboxImg.removeAttribute("src");
+    };
+
+    document.querySelectorAll(".article figure img").forEach((img) => {
+      img.addEventListener("click", () => open(img));
+    });
+
+    lightbox.addEventListener("click", (event) => {
+      if (event.target === lightbox || event.target === lightboxClose) close();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !lightbox.hidden) close();
+    });
+  }
 })();

@@ -14,7 +14,7 @@
 | [香山.md](香山.md) | 原文的 GitHub 可读版 |
 | [assets/images](assets/images) | 8 张校正方向并压缩后的照片 |
 | [assets/style.css](assets/style.css) | 全站样式 |
-| [assets/main.js](assets/main.js) | 滚动入场、阅读进度、回到顶部 |
+| [assets/main.js](assets/main.js) | 滚动入场、图片灯箱、阅读进度、回到顶部 |
 
 ## 说明
 

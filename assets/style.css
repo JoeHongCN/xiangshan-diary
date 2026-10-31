@@ -36,7 +36,7 @@ body {
   margin: 0;
   background-color: var(--paper);
   background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='160'%20height='160'%3E%3Cfilter%20id='n'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.9'%20numOctaves='2'%20stitchTiles='stitch'/%3E%3C/filter%3E%3Crect%20width='160'%20height='160'%20filter='url(%23n)'%20opacity='0.035'/%3E%3C/svg%3E"),
     radial-gradient(120% 70% at 50% 0%, var(--paper-light) 0%, rgba(253, 250, 242, 0) 55%);
   color: var(--ink);
   font-family: var(--serif);
@@ -419,6 +419,7 @@ figure img {
   width: 100%;
   height: auto;
   border-radius: 1px;
+  cursor: zoom-in;
   outline: 1px solid rgba(90, 70, 40, 0.08);
   outline-offset: -1px;
   box-shadow:
@@ -476,6 +477,76 @@ figcaption::before {
   object-fit: cover;
   margin: 0;
 }
+
+/* ---------- 大图查看 ---------- */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 4vw, 3rem);
+  background: rgba(22, 18, 14, 0.94);
+  backdrop-filter: blur(5px);
+}
+
+.lightbox[hidden] { display: none; }
+
+.lightbox img {
+  max-width: min(92vw, 1400px);
+  max-height: 80vh;
+  width: auto;
+  height: auto;
+  outline: 1px solid rgba(250, 245, 234, 0.14);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+}
+
+.lightbox-figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+}
+
+.lightbox figcaption {
+  max-width: 40em;
+  margin-top: 1.3em;
+  padding: 0 1rem;
+  color: rgba(250, 245, 234, 0.74);
+  font-family: var(--kai);
+  font-size: 0.92rem;
+  line-height: 1.9;
+  text-align: center;
+}
+
+.lightbox figcaption::before { display: none; }
+
+.lightbox-close {
+  position: absolute;
+  top: clamp(0.7rem, 2vw, 1.4rem);
+  right: clamp(0.7rem, 2vw, 1.4rem);
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 1px solid rgba(250, 245, 234, 0.28);
+  border-radius: 50%;
+  background: transparent;
+  color: rgba(250, 245, 234, 0.85);
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 0.25s ease, color 0.25s ease;
+}
+
+.lightbox-close:hover {
+  border-color: rgba(250, 245, 234, 0.7);
+  color: #fff;
+}
+
+body.lightbox-open { overflow: hidden; }
 
 /* ---------- 引文 ---------- */
 
@@ -629,7 +700,7 @@ em.cjk {
 }
 
 @media print {
-  .progress, .to-top, .cover-scroll, .seal { display: none; }
+  .progress, .to-top, .cover-scroll, .seal, .lightbox { display: none; }
   .cover { min-height: auto; color: #000; background: none; }
   .cover-img, .cover-veil { display: none; }
   body { font-size: 12pt; }
